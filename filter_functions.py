@@ -8,21 +8,21 @@ from selenium import webdriver
 from PIL import Image, ImageDraw, ImageFont
 
 
-def get_image_with_text(text):
+def get_image_with_text(text,width=500,height=750,font_width=36):
     # create an image object
-    img = Image.new("RGB", (500, 750), color="yellow")
+    img = Image.new("RGB", (width,height), color="yellow")
 
     # create an ImageDraw object
     draw = ImageDraw.Draw(img)
 
     # create a font object
-    font = ImageFont.truetype("arial.ttf", 36)
+    font = ImageFont.truetype("arial.ttf", font_width)
 
     # draw text on the image
     # text = "Hello, Duniya! "
     textwidth, textheight = draw.textsize(text, font)
-    x = (500 - textwidth) / 2
-    y = (750 - textheight) / 2
+    x = (width - textwidth) / 2
+    y = (height- textheight) / 2
     draw.text((x, y), text, fill="black", font=font)
     return img
 
