@@ -38,11 +38,16 @@ def get_movie_details(movie_id):
 
     # Trailer
     url = f"https://www.themoviedb.org/movie/{movie_id}"
-    needed_headers = {'User-Agent': "Mozilla/5.0 (Windows NT 6.3; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/92.0.4515.131 Safari/537.36"}
-    response = requests.get(url, headers = needed_headers )
+    headers = {}
+    response = requests.get(url, headers = headers )
     # req = requests.get("https://www.themoviedb.org/person/52763-aamir-khan")
     doc = BeautifulSoup(response.content, 'html.parser')
-    trailer = "https://www.youtube.com/watch?v=" + doc.find_all("a",class_="no_click play_trailer")[0]['data-id']
+    try:
+        temp_url=doc.find_all("a", class_="no_click play_trailer")[0]['data-id']
+    except:
+        temp_url=""
+
+    trailer = "https://www.youtube.com/watch?v=" + temp_url
 
     dict_['trailer'] = trailer
 
@@ -59,6 +64,7 @@ def get_movie_details(movie_id):
         ott = ott[0].find_all("a")[0]['href']
 
     dict_["ott"] = ott
+
     return dict_
 
 

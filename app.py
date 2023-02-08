@@ -22,27 +22,31 @@ st.session_state.id = movie_id
 st.session_state.imdb_id = df[df['title'] == selected_movie].imdb_id.values[0]
 st.session_state.name = selected_movie
 
-doc = get_movie_details(movie_id)
+# try:
+#     doc = get_movie_details(movie_id)
+# except:
+#     doc = None
+doc=get_movie_details(movie_id)
 
 left,right = st.columns(2)
 with left:
     try:
-        st.image("https://image.tmdb.org/t/p/original" + doc['poster_path'])
+        st.image("https://image.tmdb.org/t/p/original" + doc['poster_path'] if doc else "")
     except:
         st.image("https://th.bing.com/th/id/OIP.svp_xDT7rtBajr3qbm43JwHaK")
 with right:
     st.title("Title : " + selected_movie)
-    st.markdown("**Tagline :** " + doc['tagline'])
-    st.markdown("**Genres :** " + list_to_str(doc["genres"]))
-    st.markdown("**Rating :** " + str(doc["vote_average"]))
-    st.markdown("**Votes :** " + str(doc['vote_count']))
-    st.markdown("**Release Date :** " + doc["release_date"])
-    st.markdown("**Duration :** " + str(doc["runtime"]) + " Min.")
-    # link = '[Watch Trailer]({})'.format(doc['trailer'])
+    st.markdown("**Tagline :** " + doc['tagline'] if doc!=None else "")
+    st.markdown("**Genres :** " + list_to_str(doc["genres"]) if doc!=None else "")
+    st.markdown("**Rating :** " + str(doc["vote_average"]) if doc!=None else "")
+    st.markdown("**Votes :** " + str(doc['vote_count']) if doc!=None else "")
+    st.markdown("**Release Date :** " + doc["release_date"] if doc!=None else "")
+    st.markdown("**Duration :** " + str(doc["runtime"] if doc!=None else "") + " Min.")
+    # link = '[Watch Trailer]({})'.format(doc['trailer'] if doc!=None else "")
     if st.button('Trailer'):
-        webbrowser.open_new_tab(doc['trailer'])
+        webbrowser.open_new_tab(doc['trailer'] if doc!=None else "")
     if st.button('OTT'):
-        webbrowser.open_new_tab(doc['ott'])
+        webbrowser.open_new_tab(doc['ott'] if doc!=None else "")
 
 if st.button('Overview'):
     engine = pyttsx3.init()
@@ -50,9 +54,9 @@ if st.button('Overview'):
     engine.setProperty('rate', 120)
     voices = engine.getProperty('voices')
     engine.setProperty('voice', voices[1].id)
-    engine.say(doc["overview"])
+    engine.say(doc["overview"] if doc!=None else "")
     engine.runAndWait()
-st.markdown("**Overview :** " + doc['overview'])
+st.markdown("**Overview :** " + doc['overview'] if doc!=None else "")
 
 st.markdown("---")
 
