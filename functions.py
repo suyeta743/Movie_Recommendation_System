@@ -8,6 +8,8 @@ from bs4 import BeautifulSoup
 import ast
 import webbrowser
 
+import filter_functions
+
 df = pd.read_csv("data/mrs2.csv")
 filter_df = pd.read_csv("data/filter.csv")
 
@@ -161,7 +163,7 @@ def get_trailler(movie_id):
 
 def show_recommendations(movie_id):
     dict_= get_recommended_movie_details(movie_id)
-    link = "[Trailler]({})".format(get_trailler(movie_id))
+    # link = "[Trailler]({})".format(get_trailler(movie_id))
     try:
         st.image(dict_['poster_path'])
     except:
@@ -179,7 +181,14 @@ def show_recommendations(movie_id):
     except:
         st.markdown("**Release Date :** " + "Not Found")
     try:
-        st.markdown(link)
+        # st.markdown(link)
+        st.markdown(
+            f"""
+                    <a href="{filter_functions.get_youtube_trailler(movie_name=dict_['name'])}" style="padding: 8px 12px; background-color: blue; color: white; border-radius: 4px; text-decoration: none;">Watch Trailer</a>
+                    """,
+            unsafe_allow_html=True,
+        )
+
     except:
         st.markdown("Error")
 

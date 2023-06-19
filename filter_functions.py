@@ -37,30 +37,27 @@ def get_soup(url):
 
 
 def get_all_genres_pages_link():
-    url = "https://www.imdb.com/feature/genre"
-    response = requests.get(url)
-    doc = BeautifulSoup(response.content, "html.parser")
-    filters_link = doc.find_all("div", class_="table-cell primary")
-    genres_movies_lists = set()
-    for filter_page in filters_link:
-        genres_movies_lists.add("https://www.imdb.com" + filter_page.find("a")['href'])
-
-    all_genres_links = set()
-    for link in genres_movies_lists:
-        if link.find("https://www.imdb.com/search/title?genres=") != -1:
-            all_genres_links.add(link)
-
-    final_genres_links = set()
-    for link in all_genres_links:
-        final_genres_links.add(link[:link.find("&")])
-
-    all_genres_pages_link_list = list(final_genres_links)
-    all_genres_pages_link_dict = dict()
-    for link in all_genres_pages_link_list:
-        temp = link.split("https://www.imdb.com/search/title?genres=")[1]
-        all_genres_pages_link_dict[temp.capitalize()] = temp.lower()
-    return all_genres_pages_link_dict
-
+    page_link_dict = {
+        "Action": "https://www.imdb.com/search/title/?genres=Action",
+        "Adventure": "https://www.imdb.com/search/title/?genres=Adventure",
+        "Animation": "https://www.imdb.com/search/title/?genres=Animation",
+        "Biography": "https://www.imdb.com/search/title/?genres=Biography",
+        "Comedy": "https://www.imdb.com/search/title/?genres=Comedy",
+        "Crime": "https://www.imdb.com/search/title/?genres=Crime",
+        "Documentary": "https://www.imdb.com/search/title/?genres=Documentary",
+        "Drama": "https://www.imdb.com/search/title/?genres=Drama",
+        "Family": "https://www.imdb.com/search/title/?genres=Family",
+        "Fantasy": "https://www.imdb.com/search/title/?genres=Fantasy",
+        "History": "https://www.imdb.com/search/title/?genres=History",
+        "Horror": "https://www.imdb.com/search/title/?genres=Horror",
+        "Mystery": "https://www.imdb.com/search/title/?genres=Mystery",
+        "Romance": "https://www.imdb.com/search/title/?genres=Romance",
+        "Sci-Fi": "https://www.imdb.com/search/title/?genres=Sci-Fi",
+        "War": "https://www.imdb.com/search/title/?genres=War",
+        "Thriller": "https://www.imdb.com/search/title/?genres=Thriller",
+        "Sport": "https://www.imdb.com/search/title/?genres=Sport",
+    }
+    return page_link_dict
 def get_language_by_values():
     url = "https://www.imdb.com/search/title/"
     response = requests.get(url)

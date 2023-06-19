@@ -2,8 +2,7 @@ import streamlit as st
 from filter_functions import get_all_genres_pages_link, get_language_by_values, get_country_code, get_all_page_last_part,get_soup, show_card
 import datetime
 
-genres_multiselect_button = st.multiselect(label="Select Genre",
-         options=list(get_all_genres_pages_link().keys()),default='History')
+genres_multiselect_button = st.multiselect(label="Select Genre",options=list(get_all_genres_pages_link().keys()),default='History')
 
 selected_url = ""
 for genre in genres_multiselect_button:
